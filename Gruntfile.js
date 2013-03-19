@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
+			all: ['src/*.js'],
 			options: {
 				camelcase : true,
 				quotmark : 'single',
