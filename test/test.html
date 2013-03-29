@@ -35,6 +35,11 @@
 					console.log('Unapplied SMALL!');
 				}
 			});
+
+			document.getElementById('button').addEventListener('click', function () {
+				console.log('All clear!');
+				window.respondto('reset');
+			});
 		};
 	</script>
 </head>
@@ -43,6 +48,8 @@
 <div id="box">
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 </div>
+
+<button id="button">Clear respondto</button>
 
 </body>
 </html>
