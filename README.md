@@ -56,6 +56,14 @@ Chrome 9+, Firefox 6+, Internet Explorer 10+, Safari 5.1+
 
 ## Contribution
 
+Test:
+
+	$ grunt test
+
 Build:
+
+	$ grunt build
+
+or just
 
 	$ grunt

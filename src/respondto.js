@@ -3,18 +3,46 @@ window.respondto = (function (win) {
 	var Responders = [],
 
 	addResponder = function (r) {
-		// If given a plain number instead of a query, treat this as shorthand.
-		if (typeof r.query === 'number' || r.query.match(/^\d+$/)) {
-			r.query = 'only screen and (max-width: ' + r.query + 'px)';
-		}
-		r.mql = win.matchMedia(r.query);
+		var mediaQuery;
+
+		mediaQuery = translateInputToMediaQuery(r.query);
+		r.mql = getMediaQueryList(mediaQuery);
+
 		r.applied = false;
+
 		r.mqlListener = function () {
 			triggerResponder(r);
 		};
+
 		r.mql.addListener(r.mqlListener);
+
 		Responders.push(r);
 		return r;
+	},
+
+	translateInputToMediaQuery = function (input) {
+		// If given a plain number instead of a query, treat this as shorthand.
+		if (typeof input === 'number' || input.match(/^\d+$/)) {
+			return 'only screen and (max-width: ' + input + 'px)';
+		} else if (typeof input === 'string') {
+			return input;
+		} else {
+			throwBadInput();
+		}
+	},
+
+	getMediaQueryList = function (media) {
+		var mql = win.matchMedia(media);
+
+		if (mql.media === 'invalid') {
+			throwBadInput();
+		} else {
+			return mql;
+		}
+	},
+
+	throwBadInput = function () {
+		throw 'Bad input';
 	},
 
 	triggerResponder = function (r) {
@@ -66,7 +94,7 @@ window.respondto = (function (win) {
 			triggerResponder(r);
 		}
 		else {
-			throw 'Bad input';
+			throwBadInput();
 		}
 	};
 

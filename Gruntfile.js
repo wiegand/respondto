@@ -68,13 +68,22 @@ module.exports = function(grunt) {
 				plusplus : false,
 				noempty : false
 			}
+		},
+		jasmine: {
+			src: 'src/<%= pkg.name %>.js',
+			options: {
+				specs: 'test/**/*.js'
+			}
 		}
 	});
 
 	// Load plugins
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-jasmine');
 
 	// Default task(s).
-	grunt.registerTask('default', ['jshint', 'uglify']);
+	grunt.registerTask('test', ['jshint', 'jasmine']);
+	grunt.registerTask('build', ['test', 'uglify']);
+	grunt.registerTask('default', ['build']);
 };
