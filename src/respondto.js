@@ -9,9 +9,10 @@ window.respondto = (function (win) {
 		}
 		r.mql = win.matchMedia(r.query);
 		r.applied = false;
-		r.mql.addListener(function () {
+		r.mqlListener = function () {
 			triggerResponder(r);
-		});
+		};
+		r.mql.addListener(r.mqlListener);
 		Responders.push(r);
 		return r;
 	},
@@ -40,8 +41,14 @@ window.respondto = (function (win) {
 	},
 
 	reset = function () {
+		var i, r;
+		// remove all respsonder mql listeners
+		for (i = Responders.length - 1; i >= 0; i--) {
+			r = Responders[i];
+			r.mql.removeListener(r.mqlListener);
+		}
+		// clear responder stack
 		Responders = [];
-		//todo: kill events
 	};
 
 	return function (c) {
@@ -49,9 +56,6 @@ window.respondto = (function (win) {
 			switch (c) {
 			case 'reset':
 				reset();
-				break;
-			case 'trigger':
-				// trigger();
 				break;
 			default:
 				throw 'Bad input';
