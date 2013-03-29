@@ -1,6 +1,6 @@
 window.respondto = (function (win) {
 	'use strict';
-	var Responders = [],
+	var responders = [],
 
 	addResponder = function (r) {
 		var mediaQuery;
@@ -16,7 +16,7 @@ window.respondto = (function (win) {
 
 		r.mql.addListener(r.mqlListener);
 
-		Responders.push(r);
+		responders.push(r);
 		return r;
 	},
 
@@ -68,15 +68,19 @@ window.respondto = (function (win) {
 		return matches;
 	},
 
+	getResponders = function () {
+		return responders;
+	},
+
 	reset = function () {
 		var i, r;
 		// remove all respsonder mql listeners
-		for (i = Responders.length - 1; i >= 0; i--) {
-			r = Responders[i];
+		for (i = responders.length - 1; i >= 0; i--) {
+			r = responders[i];
 			r.mql.removeListener(r.mqlListener);
 		}
 		// clear responder stack
-		Responders = [];
+		responders = [];
 	};
 
 	return function (c) {
@@ -85,6 +89,8 @@ window.respondto = (function (win) {
 			case 'reset':
 				reset();
 				break;
+			case 'responders':
+				return getResponders();
 			default:
 				throw 'Bad input';
 			}
