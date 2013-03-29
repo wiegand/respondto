@@ -1,3 +1,6 @@
+var MATCHING_QUERY = '(max-width: 500px)',
+	UNMATCHING_QUERY = '(max-width: 5px)';
+
 describe('responto', function () {
 	beforeEach(function () {
 		respondto('reset');
@@ -57,14 +60,14 @@ describe('responto', function () {
 		});
 
 		it('returns an array with one object when registering one responder', function() {
-			var responder = {query: '(max-width: 500px)'},
+			var responder = {query: MATCHING_QUERY},
 				responders = respondto('responders');
 			respondto(responder);
 			expect(responders.length).toEqual(1);
 		});
 
 		it('returns an array with two object when registering two responders', function() {
-			var responder = {query: '(max-width: 500px)'},
+			var responder = {query: MATCHING_QUERY},
 				responders = respondto('responders');
 			respondto(responder);
 			respondto(responder);
@@ -72,11 +75,28 @@ describe('responto', function () {
 		});
 
 		it('returns an array with one object and that object is the responder', function() {
-			var responder = {query: '(max-width: 500px)'},
+			var responder = {query: MATCHING_QUERY},
 				responders = respondto('responders');
 			respondto(responder);
 			expect(responders.length).toEqual(1);
 			expect(responders[0]).toEqual(responder);
+		});
+	});
+
+	describe('respondto#apply', function () {
+		it('calls responder\'s apply callback when its query matches', function () {
+			var responder = {query: MATCHING_QUERY, apply: function () {}};
+			spyOn(responder, 'apply');
+			respondto(responder);
+
+			expect(responder.apply).toHaveBeenCalled();
+		});
+		it('does not call responder\'s apply callback when its query does not match', function () {
+			var responder = {query: UNMATCHING_QUERY, apply: function () {}};
+			spyOn(responder, 'apply');
+			respondto(responder);
+
+			expect(responder.apply).not.toHaveBeenCalled();
 		});
 	});
 });
