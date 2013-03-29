@@ -2,29 +2,22 @@ window.respondto = (function (win) {
 	'use strict';
 	var Responders = [],
 
-	addEvent = function(elem, type, eventHandle) {
-		if (elem === null || elem === undefined) {
-			return;
-		}
-		if (elem.addEventListener) {
-			elem.addEventListener(type, eventHandle, false);
-		} else if (elem.attachEvent) {
-			elem.attachEvent('on' + type, eventHandle);
-		}
-	},
-
 	addResponder = function (r) {
 		// If given a plain number instead of a query, treat this as shorthand.
 		if (typeof r.query === 'number' || r.query.match(/^\d+$/)) {
 			r.query = 'only screen and (max-width: ' + r.query + 'px)';
 		}
+		r.mql = win.matchMedia(r.query);
 		r.applied = false;
+		r.mql.addListener(function () {
+			triggerResponder(r);
+		});
 		Responders.push(r);
 		return r;
 	},
 
 	triggerResponder = function (r) {
-		var matches = win.matchMedia(r.query).matches;
+		var matches = r.mql.matches;
 
 		if (matches && r.apply && !r.applied) {
 			r.apply();
@@ -46,29 +39,10 @@ window.respondto = (function (win) {
 		return matches;
 	},
 
-	triggerResponders = function (responders) {
-		var i;
-		for (i = responders.length - 1; i >= 0; i -= 1) {
-			triggerResponder(responders[i]);
-		}
-	},
-
-	trigger = function () {
-		triggerResponders(Responders);
-	},
-
-	winResizeCallback = function () {
-		trigger();
-	},
-
 	reset = function () {
 		Responders = [];
+		//todo: kill events
 	};
-
-	// Re-run the responders if the window is resized.
-	// In practice this probably won't happen often,
-	// but to keep the spirit of media queries...
-	addEvent(win, 'resize', winResizeCallback);
 
 	return function (c) {
 		if (typeof c === 'string') {
@@ -77,7 +51,7 @@ window.respondto = (function (win) {
 				reset();
 				break;
 			case 'trigger':
-				trigger();
+				// trigger();
 				break;
 			default:
 				throw 'Bad input';
