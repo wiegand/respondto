@@ -1,5 +1,6 @@
 var MATCHING_QUERY = '(max-width: 500px)',
-	UNMATCHING_QUERY = '(max-width: 5px)';
+	UNMATCHING_QUERY = '(max-width: 5px)',
+	VALID_MATCHING_RESPONDER = {query: MATCHING_QUERY};
 
 describe('responto', function () {
 	beforeEach(function () {
@@ -97,6 +98,15 @@ describe('responto', function () {
 			respondto(responder);
 
 			expect(responder.apply).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('respondto#reset', function () {
+		it('when there is one responder, and reset is called, there will be zero responders', function () {
+			respondto(VALID_MATCHING_RESPONDER);
+			expect(respondto('responders').length).toEqual(1);
+			respondto('reset');
+			expect(respondto('responders').length).toEqual(0);
 		});
 	});
 });
