@@ -56,23 +56,18 @@ describe('responto', function () {
 
 	describe('respondto#responders', function () {
 		it('returns an empty array before registering any responders', function() {
-			var responders = respondto('responders');
-			expect(responders.length).toEqual(0);
+			expect(respondto('responders').length).toEqual(0);
 		});
 
 		it('returns an array with one object when registering one responder', function() {
-			var responder = {query: MATCHING_QUERY},
-				responders = respondto('responders');
-			respondto(responder);
-			expect(responders.length).toEqual(1);
+			respondto(VALID_MATCHING_RESPONDER);
+			expect(respondto('responders').length).toEqual(1);
 		});
 
 		it('returns an array with two object when registering two responders', function() {
-			var responder = {query: MATCHING_QUERY},
-				responders = respondto('responders');
-			respondto(responder);
-			respondto(responder);
-			expect(responders.length).toEqual(2);
+			respondto(VALID_MATCHING_RESPONDER);
+			respondto(VALID_MATCHING_RESPONDER);
+			expect(respondto('responders').length).toEqual(2);
 		});
 
 		it('returns an array with one object and that object is the responder', function() {
