@@ -52,7 +52,17 @@ This system is designed to work much like CSS based media queries. If a conditio
 
 ## Support
 
-Chrome 9+, Firefox 6+, Internet Explorer 10+, Safari 5.1+
+Desktop:
+
+- Chrome 9+
+- Firefox 6+
+- Internet Explorer 10+
+- Safari 5.1+
+
+Mobile:
+
+- iOS 5.0+
+- Android 4.0+
 
 ## Contribution
 
