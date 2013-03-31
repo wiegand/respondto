@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		.box {
+			background-color: #EEE;
+			margin: 10em auto 1em;
+			width: 8em;
+			padding: 3em;
+			text-align: center;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 24px;
+			font-weight: bold;
+			color: #999;
+		}
+		.active {
+			color: #333;
+		}
+		button {
+			margin: 0 auto;
+			display: block;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			color: #333;
+		}
+	</style>
+	<script src="../src/respondto.js"></script>
+</head>
+<body>
+	<div class="box">Inactive</div>
+	<button>reset</button>
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script>
+	$(function () {
+		var timesApplied = 0,
+			timesUnapplied = 0,
+			textForBox = function (label, count) {
+				return label + ' ' + count + ' time' +  (count == 1 ? '' : 's') +  '.';
+			};
+		respondto({
+			query: '(max-width: 500px)',
+			apply: function () {
+				timesApplied++;
+				$('.box')
+					.addClass('active')
+					.text(textForBox('Applied', timesApplied));
+			},
+			unapply: function () {
+				timesUnapplied++;
+				$('.box')
+					.text(textForBox('Unapplied', timesUnapplied));
+			}
+		});
+		$('button').click(function () {
+			$('.box').removeClass('active');
+			respondto('reset');
+			return false;
+		});
+	});
+</script>
+</body>
+</html>
