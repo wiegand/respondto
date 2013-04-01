@@ -11,13 +11,13 @@ window.respondto = (function (win) {
 				r.applied = false;
 
 				r.mqlListener = function () {
-					self.triggerResponder(r);
+					self.triggerResponder(r, r.mql.matches);
 				};
 
 				r.mql.addListener(r.mqlListener);
 
 				responders.push(r);
-				self.triggerResponder(r);
+				self.triggerResponder(r, r.mql.matches);
 				return r;
 			},
 
@@ -41,9 +41,7 @@ window.respondto = (function (win) {
 				}
 			},
 
-			triggerResponder: function (r) {
-				var matches = r.mql.matches;
-
+			triggerResponder: function (r, matches) {
 				if (matches && r.apply && !r.applied) {
 					r.apply();
 					r.applied = true;

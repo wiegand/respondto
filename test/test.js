@@ -93,44 +93,6 @@ describe('respondto', function () {
 			applyCallback.callCount.should.equal(0);
 			unapplyCallback.callCount.should.equal(0);
 		});
-
-		it('should call the responder\'s unapply callback after the apply callback has been called and query no longer matches', function () {
-			var applyCallback = sinon.spy(),
-				unapplyCallback = sinon.spy(),
-				responder = {
-					query: '',
-					apply: applyCallback,
-					unapply: unapplyCallback
-				};
-
-			// should apply because it matches, and NOT unapply
-			respondto.addResponder(responder);
-			applyCallback.callCount.should.equal(1);
-			unapplyCallback.callCount.should.equal(0);
-
-			// no longer matches...
-			// so it should unapply, but NOT apply
-			responder.mql.matches = false;
-			respondto.triggerResponder(responder);
-			applyCallback.callCount.should.equal(1);
-			unapplyCallback.callCount.should.equal(1);
-
-			// When retriggering and nothing has changed, no callbacks fire
-			respondto.triggerResponder(responder);
-			applyCallback.callCount.should.equal(1);
-			unapplyCallback.callCount.should.equal(1);
-
-			// Matches again, apply is called, but NOT unapply
-			responder.mql.matches = true;
-			respondto.triggerResponder(responder);
-			applyCallback.callCount.should.equal(2);
-			unapplyCallback.callCount.should.equal(1);
-
-			// Again, when retriggering and nothing has changed, no callbacks fire
-			respondto.triggerResponder(responder);
-			applyCallback.callCount.should.equal(2);
-			unapplyCallback.callCount.should.equal(1);
-		});
 	});
 
 	describe('#removeResponder()', function () {
@@ -190,6 +152,44 @@ describe('respondto', function () {
 			respondto.reset();
 			respondto.responders().should.be.empty;
 			callback.callCount.should.equal(2);
+		});
+	});
+
+	describe('#triggerResponder()', function () {
+		it('should call the responder\'s unapply callback after the apply callback has been called and query no longer matches', function () {
+			var applyCallback = sinon.spy(),
+				unapplyCallback = sinon.spy(),
+				responder = {
+					query: '',
+					apply: applyCallback,
+					unapply: unapplyCallback
+				};
+
+			// should apply because it matches, and NOT unapply
+			respondto.addResponder(responder);
+			applyCallback.callCount.should.equal(1);
+			unapplyCallback.callCount.should.equal(0);
+
+			// no longer matches...
+			// so it should unapply, but NOT apply
+			respondto.triggerResponder(responder, false);
+			applyCallback.callCount.should.equal(1);
+			unapplyCallback.callCount.should.equal(1);
+
+			// When retriggering and nothing has changed, no callbacks fire
+			respondto.triggerResponder(responder, false);
+			applyCallback.callCount.should.equal(1);
+			unapplyCallback.callCount.should.equal(1);
+
+			// Matches again, apply is called, but NOT unapply
+			respondto.triggerResponder(responder, true);
+			applyCallback.callCount.should.equal(2);
+			unapplyCallback.callCount.should.equal(1);
+
+			// Again, when retriggering and nothing has changed, no callbacks fire
+			respondto.triggerResponder(responder, true);
+			applyCallback.callCount.should.equal(2);
+			unapplyCallback.callCount.should.equal(1);
 		});
 	});
 });
