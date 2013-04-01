@@ -73,7 +73,7 @@ module.exports = function(grunt) {
 			src: 'test/test.js',
 			options: {
 				ui: 'tdd',
-				require: ['test/test-setup.js', 'src/<%= pkg.name %>.js']
+				require: ['should', 'test/test-setup.js', 'src/<%= pkg.name %>.js']
 			}
 		}
 	});
