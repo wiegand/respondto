@@ -27,6 +27,9 @@ window.respondto = (function (win) {
 					throw 'Given responder is not registered.';
 				} else {
 					r.mql.removeListener(r.mqlListener);
+					delete r.mql;
+					delete r.mqlListener;
+					delete r.applied;
 					responders.splice(i,1);
 				}
 			},

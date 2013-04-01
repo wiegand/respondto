@@ -106,6 +106,15 @@ describe('respondto', function () {
 			respondto.responders().length.should.equal(0);
 		});
 
+		it('should remove any properties added by #addResponder', function () {
+			var responder = {query: '(max-width: 500px)'};
+			respondto.addResponder(responder);
+			respondto.removeResponder(responder);
+			responder.should.not.have.property('mql');
+			responder.should.not.have.property('mqlListener');
+			responder.should.not.have.property('applied');
+		});
+
 		it('should deregister the responder it\'s given\'s mediaquery based event', function (done) {
 			var responder = {
 				query: '(max-width: 500px)'
