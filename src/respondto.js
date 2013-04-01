@@ -35,14 +35,10 @@ window.respondto = (function (win) {
 				var mql = win.matchMedia(media);
 
 				if (mql.media === 'invalid') {
-					this.throwBadInput();
+					throw 'Bad input';
 				} else {
 					return mql;
 				}
-			},
-
-			throwBadInput: function () {
-				throw 'Bad input';
 			},
 
 			triggerResponder: function (r) {
