@@ -4,11 +4,9 @@ window.respondto = (function (win) {
 
 		o = {
 			addResponder: function (r) {
-				var self = this,
-					mediaQuery;
+				var self = this;
 
-				mediaQuery = self.translateInputToMediaQuery(r.query);
-				r.mql = self.getMediaQueryList(mediaQuery);
+				r.mql = self.getMediaQueryList(r.query);
 
 				r.applied = false;
 
@@ -30,17 +28,6 @@ window.respondto = (function (win) {
 				} else {
 					r.mql.removeListener(r.mqlListener);
 					responders.splice(i,1);
-				}
-			},
-
-			translateInputToMediaQuery: function (input) {
-				// If given a plain number instead of a query, treat this as shorthand.
-				if (typeof input === 'number' || input.match(/^\d+$/)) {
-					return 'only screen and (max-width: ' + input + 'px)';
-				} else if (typeof input === 'string') {
-					return input;
-				} else {
-					this.throwBadInput();
 				}
 			},
 
