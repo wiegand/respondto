@@ -46,19 +46,11 @@ window.respondto = (function (win) {
 					r.apply();
 					r.applied = true;
 				} else if (!matches) {
-					if (r.fail) {
-						r.fail();
-					}
 					if (r.unapply && r.applied) {
 						r.unapply();
 						r.applied = false;
 					}
 				}
-
-				if (r.triggered) {
-					r.triggered();
-				}
-
 				return matches;
 			},
 
