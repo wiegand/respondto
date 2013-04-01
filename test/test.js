@@ -67,25 +67,31 @@ describe('respondto', function () {
 			respondto.addResponder(responder);
 		});
 
-		it('should call the responder\'s apply callback when its query matches', function () {
-			var callback = sinon.spy(),
+		it('should call the responder\'s apply callback when its query matches, but not call its unapply callback', function () {
+			var applyCallback = sinon.spy(),
+				unapplyCallback = sinon.spy(),
 				responder = {
 					query: '(max-width: 500px)',
-					apply: callback
+					apply: applyCallback,
+					unapply: unapplyCallback
 				};
 			respondto.addResponder(responder);
-			callback.callCount.should.equal(1);
+			applyCallback.callCount.should.equal(1);
+			unapplyCallback.callCount.should.equal(0);
 		});
 
-		it('should not call the responder\'s apply callback when its query does not match', function () {
-			var callback = sinon.spy(),
+		it('should not call the responder\'s apply or unapply callback when its query does not match', function () {
+			var applyCallback = sinon.spy(),
+				unapplyCallback = sinon.spy(),
 				responder = {
 					query: '(max-width: 500px)',
-					apply: callback
+					apply: applyCallback,
+					unapply: unapplyCallback
 				};
 			window.matchMedia = matchMediaMockNoMatch;
 			respondto.addResponder(responder);
-			callback.callCount.should.equal(0);
+			applyCallback.callCount.should.equal(0);
+			unapplyCallback.callCount.should.equal(0);
 		});
 	});
 
