@@ -149,32 +149,3 @@ describe('respondto', function () {
 		});
 	});
 });
-
-
-// 	describe('respondto#apply', function () {
-// 		it('calls responder\'s apply callback when its query matches', function () {
-// 			var responder = {query: MATCHING_QUERY, apply: function () {}};
-// 			spyOn(responder, 'apply');
-// 			respondto(responder);
-
-// 			expect(responder.apply).toHaveBeenCalled();
-// 		});
-// 		it('does not call responder\'s apply callback when its query does not match', function () {
-// 			var responder = {query: UNMATCHING_QUERY, apply: function () {}};
-// 			spyOn(responder, 'apply');
-// 			respondto(responder);
-
-// 			expect(responder.apply).not.toHaveBeenCalled();
-// 		});
-// 	});
-
-// 	describe('respondto#reset', function () {
-// 		it('when there is one responder, and reset is called, there will be zero responders', function () {
-// 			respondto(VALID_MATCHING_RESPONDER);
-// 			expect(respondto('responders').length).toEqual(1);
-// 			respondto('reset');
-// 			expect(respondto('responders').length).toEqual(0);
-// 		});
-// 	});
-// });
-
