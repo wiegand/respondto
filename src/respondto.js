@@ -4,21 +4,22 @@ window.respondto = (function (win) {
 
 		o = {
 			addResponder: function (r) {
-				var mediaQuery;
+				var self = this,
+					mediaQuery;
 
-				mediaQuery = this.translateInputToMediaQuery(r.query);
-				r.mql = this.getMediaQueryList(mediaQuery);
+				mediaQuery = self.translateInputToMediaQuery(r.query);
+				r.mql = self.getMediaQueryList(mediaQuery);
 
 				r.applied = false;
 
 				r.mqlListener = function () {
-					this.triggerResponder(r);
+					self.triggerResponder(r);
 				};
 
 				r.mql.addListener(r.mqlListener);
 
 				responders.push(r);
-				this.triggerResponder(r);
+				self.triggerResponder(r);
 				return r;
 			},
 

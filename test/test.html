@@ -32,7 +32,7 @@
 	<div class="box">Inactive</div>
 	<button>reset</button>
 
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script>
 	$(function () {
 		var timesApplied = 0,
@@ -40,7 +40,7 @@
 			textForBox = function (label, count) {
 				return label + ' ' + count + ' time' +  (count == 1 ? '' : 's') +  '.';
 			};
-		respondto({
+		respondto.addResponder({
 			query: '(max-width: 500px)',
 			apply: function () {
 				timesApplied++;
@@ -56,7 +56,7 @@
 		});
 		$('button').click(function () {
 			$('.box').removeClass('active');
-			respondto('reset');
+			respondto.reset();
 			return false;
 		});
 	});
