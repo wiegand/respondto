@@ -134,7 +134,7 @@ describe('respondto', function () {
 	});
 
 	describe('#removeResponder()', function () {
-		it('should remove a responder it\'s given', function () {
+		it('should remove the responder it\'s given', function () {
 			var responder = {
 				query: '(max-width: 500px)'
 			};
@@ -144,7 +144,7 @@ describe('respondto', function () {
 			respondto.responders().length.should.equal(0);
 		});
 
-		it('should deregister a responder it\'s given\'s mediaquery based event', function (done) {
+		it('should deregister the responder it\'s given\'s mediaquery based event', function (done) {
 			var responder = {
 				query: '(max-width: 500px)'
 			};
