@@ -7,6 +7,17 @@ var respondto = window.respondto,
 	matchMediaMock = function () {
 		return {
 			media: true,
+			matches: true,
+			addListener: function () {
+			},
+			removeListener: function () {
+			}
+		};
+	},
+	matchMediaMockNoMatch = function () {
+		return {
+			media: false,
+			matches: false,
 			addListener: function () {
 			},
 			removeListener: function () {
@@ -54,6 +65,27 @@ describe('respondto', function () {
 			};
 
 			respondto.addResponder(responder);
+		});
+
+		it('should call the responder\'s apply callback when its query matches', function () {
+			var callback = sinon.spy(),
+				responder = {
+					query: '(max-width: 500px)',
+					apply: callback
+				};
+			respondto.addResponder(responder);
+			callback.callCount.should.equal(1);
+		});
+
+		it('should not call the responder\'s apply callback when its query does not match', function () {
+			var callback = sinon.spy(),
+				responder = {
+					query: '(max-width: 500px)',
+					apply: callback
+				};
+			window.matchMedia = matchMediaMockNoMatch;
+			respondto.addResponder(responder);
+			callback.callCount.should.equal(0);
 		});
 	});
 

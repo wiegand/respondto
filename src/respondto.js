@@ -18,6 +18,7 @@ window.respondto = (function (win) {
 				r.mql.addListener(r.mqlListener);
 
 				responders.push(r);
+				this.triggerResponder(r);
 				return r;
 			},
 
