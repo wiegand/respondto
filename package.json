@@ -1,10 +1,12 @@
 {
   "name": "respondto",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-jshint": "~0.3.0",
-    "grunt-contrib-jasmine": "~0.4.1"
+    "grunt-cafe-mocha": "~0.1.1",
+    "should": "~1.2.2",
+    "sinon": "~1.6.0"
   }
 }

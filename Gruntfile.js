@@ -69,10 +69,11 @@ module.exports = function(grunt) {
 				noempty : false
 			}
 		},
-		jasmine: {
-			src: 'src/<%= pkg.name %>.js',
+		cafemocha: {
+			src: 'test/test.js',
 			options: {
-				specs: 'test/**/*.js'
+				ui: 'tdd',
+				require: ['should', 'test/test-setup.js', 'src/<%= pkg.name %>.js']
 			}
 		}
 	});
@@ -80,10 +81,10 @@ module.exports = function(grunt) {
 	// Load plugins
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-jasmine');
+	grunt.loadNpmTasks('grunt-cafe-mocha');
 
 	// Default task(s).
-	grunt.registerTask('test', ['jshint', 'jasmine']);
+	grunt.registerTask('test', ['jshint', 'cafemocha']);
 	grunt.registerTask('build', ['test', 'uglify']);
 	grunt.registerTask('default', ['build']);
 };
