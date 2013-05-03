@@ -11,12 +11,19 @@ window.respondto = (function (win) {
 				r.applied = false;
 
 				r.mqlListener = function () {
-					self.triggerResponder(r, r.mql.matches);
+					// Ideally we would reuse the r.mql property, but this won't work with
+					// the IE9 matchMedia()/addListener()/removeListener() polyfills
+					var matches = self.getMediaQueryList(r.query).matches;
+					self.triggerResponder(r, matches);
 				};
 
+				// Listen changes in browser conditions
 				r.mql.addListener(r.mqlListener);
 
+				// Push the new responder on the stack
 				responders.push(r);
+
+				// And check to see if the media query currently applies
 				self.triggerResponder(r, r.mql.matches);
 				return r;
 			},
@@ -26,10 +33,15 @@ window.respondto = (function (win) {
 				if (i < 0) {
 					throw 'Given responder is not registered.';
 				} else {
+					// kill its listener
 					r.mql.removeListener(r.mqlListener);
+
+					// remove the properties we added when initializing the responder
 					delete r.mql;
 					delete r.mqlListener;
 					delete r.applied;
+
+					// finally remove it from the stack
 					responders.splice(i,1);
 				}
 			},
@@ -46,18 +58,26 @@ window.respondto = (function (win) {
 
 			triggerResponder: function (r, matches) {
 				if (matches && r.apply && !r.applied) {
+					// if the media query currently matches, and the user has specified
+					// an apply callback, and the apply callback hasn't already been
+					// applied then call the apply callback, and remember that we did so
 					r.apply();
 					r.applied = true;
 				} else if (!matches) {
+					// otherwise, if the media query doesn't match...
 					if (r.unapply && r.applied) {
+						// ... and  the user has specified an unapply callback, call the
+						// unapply callback and forget that we called the apply callback
 						r.unapply();
 						r.applied = false;
 					}
 				}
+				// in any event simply return the boolean passed in
 				return matches;
 			},
 
 			responders: function () {
+				// return the responder stack
 				return responders;
 			},
 

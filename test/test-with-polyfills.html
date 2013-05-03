@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		.box {
+			background-color: #EEE;
+			margin: 10em auto 1em;
+			width: 8em;
+			padding: 3em;
+			text-align: center;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 24px;
+			font-weight: bold;
+			color: #999;
+		}
+		.active {
+			color: #333;
+		}
+		button {
+			margin: 0 auto;
+			display: block;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+			color: #333;
+		}
+	</style>
+	<script src="../src/respondto.js"></script>
+</head>
+<body>
+	<div class="box">Inactive</div>
+	<button>reset</button>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+	<script>
+		/*! matchMedia() polyfill - Test a CSS media type/query in JS. Authors & copyright (c) 2012: Scott Jehl, Paul Irish, Nicholas Zakas. Dual MIT/BSD license */
+		window.matchMedia = window.matchMedia || (function( doc, undefined ) {
+
+		  "use strict";
+
+		  var bool,
+		      docElem = doc.documentElement,
+		      refNode = docElem.firstElementChild || docElem.firstChild,
+		      // fakeBody required for <FF4 when executed in <head>
+		      fakeBody = doc.createElement( "body" ),
+		      div = doc.createElement( "div" );
+
+		  div.id = "mq-test-1";
+		  div.style.cssText = "position:absolute;top:-100em";
+		  fakeBody.style.background = "none";
+		  fakeBody.appendChild(div);
+
+		  return function(q){
+
+		    div.innerHTML = "&shy;<style media=\"" + q + "\"> #mq-test-1 { width: 42px; }</style>";
+
+		    docElem.insertBefore( fakeBody, refNode );
+		    bool = div.offsetWidth === 42;
+		    docElem.removeChild( fakeBody );
+
+		    return {
+		      matches: bool,
+		      media: q
+		    };
+
+		  };
+
+		}( document ));
+
+
+		/*! matchMedia() polyfill addListener/removeListener extension. Author & copyright (c) 2012: Scott Jehl. Dual MIT/BSD license */
+		(function(){
+			// monkeypatch unsupported addListener/removeListener with polling
+			if( !window.matchMedia( "" ).addListener ){
+				var oldMM = window.matchMedia;
+				
+				window.matchMedia = function( q ){
+					var ret = oldMM( q ),
+						listeners = [],
+						last = false,
+						timer,
+						check = function(){
+							var list = oldMM( q ),
+								unmatchToMatch = list.matches && !last,
+								matchToUnmatch = !list.matches && last;
+		                                                
+		                                        //fire callbacks only if transitioning to or from matched state
+							if( unmatchToMatch || matchToUnmatch ){
+								for( var i =0, il = listeners.length; i< il; i++ ){
+									listeners[ i ].call( ret, list );
+								}
+							}
+							last = list.matches;
+						};
+					
+					ret.addListener = function( cb ){
+						listeners.push( cb );
+						if( !timer ){
+							timer = setInterval( check, 1000 );
+						}
+					};
+
+					ret.removeListener = function( cb ){
+						for( var i =0, il = listeners.length; i< il; i++ ){
+							if( listeners[ i ] === cb ){
+								listeners.splice( i, 1 );
+							}
+						}
+						if( !listeners.length && timer ){
+							clearInterval( timer );
+						}
+					};
+					
+					return ret;
+				};
+			}
+		}());
+	</script>
+
+	<script>
+	$(function () {
+		var timesApplied = 0,
+			timesUnapplied = 0,
+			textForBox = function (label, count) {
+				return label + ' ' + count + ' time' +  (count == 1 ? '' : 's') +  '.';
+			};
+		respondto.addResponder({
+			query: '(max-width: 500px)',
+			apply: function () {
+				timesApplied++;
+				$('.box')
+					.addClass('active')
+					.text(textForBox('Applied', timesApplied));
+			},
+			unapply: function () {
+				timesUnapplied++;
+				$('.box')
+					.text(textForBox('Unapplied', timesUnapplied));
+			}
+		});
+		$('button').click(function () {
+			$('.box').removeClass('active');
+			respondto.reset();
+			return false;
+		});
+	});
+</script>
+</body>
+</html>
