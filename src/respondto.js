@@ -48,6 +48,8 @@ window.respondto = (function (win) {
 	triggerResponder = function (r) {
 		var matches = r.mql.matches;
 
+		alert('matches: ' + matches + ' , r.applied: ' + r.applied);
+
 		if (matches && r.apply && !r.applied) {
 			r.apply();
 			r.applied = true;

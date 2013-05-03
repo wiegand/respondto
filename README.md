@@ -50,7 +50,7 @@ This system is designed to work much like CSS based media queries. If a conditio
 		}
 	});
 
-## Support
+## Support (Native)
 
 Desktop:
 
@@ -63,6 +63,14 @@ Mobile:
 
 - iOS 5.0+
 - Android 4.0+
+
+## Support for older, non-compliant browsers
+
+If you need broader support, have no fear. Thanks to Scott Jehl, Paul Irish, and Nicholas Zakas's wonderful [`matchMedia` and `matchMedia.addListener` polyfills](https://github.com/paulirish/matchMedia.js/) respondto.js should work everywhere CSS media queries are supported.
+
+## Known issues
+
+There is a timing issue with IE9 and the aforementioned addListener polyfill, i.e. the listener polyfill fires, but respondto doesn't recognize the media query as matching.
 
 ## Contribution
 
