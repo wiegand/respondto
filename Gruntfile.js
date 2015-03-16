@@ -69,22 +69,24 @@ module.exports = function(grunt) {
 				noempty : false
 			}
 		},
-		cafemocha: {
-			src: 'test/test.js',
-			options: {
-				ui: 'tdd',
-				require: ['should', 'test/test-setup.js', 'src/<%= pkg.name %>.js']
-			}
+		mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          require: ['should', 'test/test-setup.js', 'src/<%= pkg.name %>.js']
+        },
+        src: ['test/test.js']
+      }
 		}
 	});
 
 	// Load plugins
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-cafe-mocha');
+	grunt.loadNpmTasks('grunt-mocha-test');
 
 	// Default task(s).
-	grunt.registerTask('test', ['jshint', 'cafemocha']);
+	grunt.registerTask('test', ['jshint', 'mochaTest']);
 	grunt.registerTask('build', ['test', 'uglify']);
 	grunt.registerTask('default', ['build']);
 };
