@@ -1,0 +1,17 @@
+{
+  "name": "respondto",
+  "version": "0.2.0",
+  "homepage": "https://github.com/wiegand/respondto",
+  "authors": [
+    "Branden Wiegand <branden@brandenwiegand.com>"
+  ],
+  "description": "A simple JavaScript API for applying (and unapplying) DOM changes based on defined mediaquery conditions.",
+  "main": "./src/respondto.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ]
+}
