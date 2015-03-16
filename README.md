@@ -1,4 +1,4 @@
-# respondto.js
+# respondto
 
 A simple and lightweight JavaScript API for applying (and unapplying) DOM changes (or any arbitray JS code) based on defined media query conditions.
 
@@ -6,7 +6,7 @@ Or, as I like to say: *media queries for JavaScript!*
 
 ## Usage
 
-respondto.js exposes one property on the `window` object. As you'd probably guess, it's named `respondto`. It allows you to register (and unregister) media query conditions around which you can create JavaScript based behavior. I call these *responders*.
+respondto exposes one property on the `window` object. As you'd probably guess, it's named `respondto`. It allows you to register (and unregister) media query conditions around which you can create JavaScript based behavior. I call these *responders*.
 
 ### Responders
 
@@ -68,7 +68,7 @@ Mobile:
 
 ## Support for older, non-compliant browsers
 
-If you need broader support, have no fear. Thanks to Scott Jehl, Paul Irish, and Nicholas Zakas's wonderful [`matchMedia` and `matchMedia.addListener` polyfills](https://github.com/paulirish/matchMedia.js/) respondto.js should work everywhere CSS media queries are supported --- e.g. Internet Explorer 9.
+If you need broader support, have no fear. Thanks to Scott Jehl, Paul Irish, and Nicholas Zakas's wonderful [`matchMedia` and `matchMedia.addListener` polyfills](https://github.com/paulirish/matchMedia.js/) respondto should work everywhere CSS media queries are supported --- e.g. Internet Explorer 9.
 
 
 ## Contribution
