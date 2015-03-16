@@ -1,16 +1,16 @@
-window.respondto = (function (win) {
+window.respondto = (function(win) {
   'use strict';
   var responders = [];
 
   var o = {
-    addResponder: function (r) {
+    addResponder: function(r) {
       var self = this;
 
       r.mql = self.getMediaQueryList(r.query);
 
       r.applied = false;
 
-      r.mqlListener = function () {
+      r.mqlListener = function() {
         // Ideally we would reuse the r.mql property, but this won't work with
         // the IE9 matchMedia()/addListener()/removeListener() polyfills
         var matches = self.getMediaQueryList(r.query).matches;
@@ -28,7 +28,7 @@ window.respondto = (function (win) {
       return r;
     },
 
-    removeResponder: function (r) {
+    removeResponder: function(r) {
       var i = responders.indexOf(r);
       if (i < 0) {
         throw 'Given responder is not registered.';
@@ -46,7 +46,7 @@ window.respondto = (function (win) {
       }
     },
 
-    getMediaQueryList: function (media) {
+    getMediaQueryList: function(media) {
       var mql = win.matchMedia(media);
 
       if (mql.media === 'invalid') {
@@ -56,7 +56,7 @@ window.respondto = (function (win) {
       }
     },
 
-    triggerResponder: function (r, matches) {
+    triggerResponder: function(r, matches) {
       if (matches && r.apply && !r.applied) {
         // if the media query currently matches, and the user has specified
         // an apply callback, and the apply callback hasn't already been
@@ -76,12 +76,12 @@ window.respondto = (function (win) {
       return matches;
     },
 
-    responders: function () {
+    responders: function() {
       // return the responder stack
       return responders;
     },
 
-    reset: function () {
+    reset: function() {
       // remove all respsonders
       while (responders.length > 0) {
         var r = responders[0];
