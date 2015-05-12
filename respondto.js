@@ -1,6 +1,7 @@
-window.respondto = (function(win) {
+(function() {
   'use strict';
   var responders = [];
+  var root = this;
 
   var o = {
     addResponder: function(r) {
@@ -47,7 +48,7 @@ window.respondto = (function(win) {
     },
 
     getMediaQueryList: function(media) {
-      var mql = win.matchMedia(media);
+      var mql = root.matchMedia(media);
 
       if (mql.media === 'invalid') {
         throw 'Bad input';
@@ -90,6 +91,15 @@ window.respondto = (function(win) {
     }
   };
 
+  if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+      exports = module.exports = o;
+    }
+    exports.respondto = o;
+  } else {
+    root.respondto = o;
+  }
+
   return o;
 
-}(window));
+}.call(window));
