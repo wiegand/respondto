@@ -31,7 +31,7 @@
     "build": "grunt build"
   },
   "files": [
-    "responto.js",
+    "respondto.js",
     "LICENSE-MIT"
   ]
 }
