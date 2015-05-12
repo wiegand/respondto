@@ -1,7 +1,7 @@
 {
   "name": "respondto",
   "description": "A simple JavaScript API for applying (and unapplying) DOM changes based on defined mediaquery conditions.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Branden Wiegand <branden@brandenwiegand.com> (http://brandenwiegand.com/)",
   "license": "MIT",
   "main": "respondto.js",
